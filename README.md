@@ -1,0 +1,2 @@
+# CodersMedia
+A full-stack application designed for coders, inspired by Tinder, with a focus on connecting developers and fostering collaboration. It includes exciting features tailored for programmers.
