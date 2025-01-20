@@ -5,7 +5,7 @@ const UserCard = ({ FirstName, LastName, Gender,  Skills, About, PhotoUrl }) => 
     <div className="card bg-base-200 h-[600px] w-[400px] shadow-xl mt-[70px]">
       <figure>
         <img
-          className=" h-[320px]"
+          className=" h-[300px]"
           src={PhotoUrl}
       
         />
