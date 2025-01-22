@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { baseUrl } from "../Utils/url";
 import axios from "axios";
 const Connections = () => {
-  const [Connections, setConnections] = useState(null);
-  const [Show, setShow] = useState(true);
+  const [Connections, setConnections] = useState([]);
+  const [Show, setShow] = useState(false);
   const fetch = async () => {
     const data = await axios.get(baseUrl + "/user/connections", {
       withCredentials: true,
@@ -13,11 +13,6 @@ const Connections = () => {
   useEffect(() => {
     fetch();
   }, []);
-
-  if (Connections === null)
-    return (
-      <div className="flex flex-col items-center w-4/12 gap-6 bg-base-200 p-4 rounded-3xl h-56"></div>
-    );
 
   return (
     <div className="flex flex-col items-center w-4/12 gap-6 bg-base-200 p-4 rounded-3xl">

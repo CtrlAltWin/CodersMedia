@@ -1,22 +1,43 @@
-import React, { useState } from 'react'
-import EditProfile from './EditProfile'
-import UserCard from './UserCard'
+import React, { useState } from "react";
+import EditProfile from "./EditProfile";
+import UserCard from "./UserCard";
+import { useSelector } from "react-redux";
 const Profile = () => {
-  const [FirstName, setFirstName] = useState("Elon");
-  const [LastName, setLastName] = useState("Musk");
-  const [PhotoUrl, setPhotoUrl] = useState("https://i.insider.com/64c7a2c9048ff200190deaf5?width=1200&format=jpeg");
-  const [Gender, setGender] = useState("male");
-  const [Skills, setSkills] = useState("Rocket science, EVs, Business");
-  const [About, setAbout] = useState("I am CEO and founder of SpaceX");
-  
-
-  console.log(Gender)
+  const user = useSelector((store) => store.user);
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [PhotoUrl, setPhotoUrl] = useState("");
+  const [Gender, setGender] = useState("");
+  const [Skills, setSkills] = useState("");
+  const [About, setAbout] = useState("");
+  if (!user) return <div></div>;
+  const { firstName, lastName, emailId, skills, age, photoURL, about } = user;
+  const skillsArray = Skills.split(",").map((skill) => skill.trim());
+  const skillsString = skills.join(", ");
   return (
     <div className="flex flex-grow gap-6 w-screen justify-center">
-      <EditProfile setFirstName={setFirstName} setLastName={setLastName} setPhotoUrl={setPhotoUrl} setGender={setGender} setAbout={setAbout} setSkills={setSkills} FirstName={FirstName} LastName={LastName} PhotoUrl={PhotoUrl} Gender={Gender} About={About} Skills={Skills}/>
-      <UserCard FirstName={FirstName} LastName={LastName} PhotoUrl={PhotoUrl} Gender={Gender} About={About} Skills={Skills}/>
+      <EditProfile
+        setFirstName={setFirstName}
+        setLastName={setLastName}
+        setPhotoUrl={setPhotoUrl}
+        setGender={setGender}
+        setAbout={setAbout}
+        setSkills={setSkills}
+        firstName={firstName}
+        lastName={lastName}
+        photoURL={photoURL}
+        about={about}
+        skills={skillsString}
+      />
+      <UserCard
+        FirstName={FirstName.length === 0 ? firstName : FirstName}
+        LastName={LastName.length === 0 ? lastName : LastName}
+        PhotoUrl={PhotoUrl.length === 0 ? photoURL : PhotoUrl}
+        About={About.length === 0 ? about : About}
+        Skills={Skills.length === 0 ? skills : skillsArray}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

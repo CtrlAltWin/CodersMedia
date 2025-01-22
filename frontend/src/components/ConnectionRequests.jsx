@@ -24,8 +24,6 @@ const ConnectionRequests = () => {
     fetch();
   }, []);
 
-  if (Requests === null) return <div></div>;
-
   return (
     <div className="flex flex-grow justify-center">
       <div className="flex flex-col items-center w-4/12 gap-6 bg-base-200 p-4 rounded-3xl mt-36">

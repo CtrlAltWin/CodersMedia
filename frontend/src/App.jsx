@@ -11,7 +11,7 @@ import { baseUrl } from "./Utils/url";
 
 function App() {
   const dispatch = useDispatch();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const fetchUser = async () => {
     try {
       const res = await axios.get(baseUrl + "/profile/view", {
@@ -24,9 +24,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  fetchUser();
 
   return (
     <div>
