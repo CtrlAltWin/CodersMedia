@@ -2,7 +2,7 @@ import React from "react";
 
 const UserCard = ({ FirstName, LastName, Gender,  Skills, About, PhotoUrl }) => {
   return (
-    <div className="card bg-base-200 h-[600px] w-[400px] shadow-xl mt-[70px]">
+    <div className="card bg-base-200 h-[580px] w-[400px] shadow-xl mt-[80px]">
       <figure>
         <img
           className=" h-[300px]"

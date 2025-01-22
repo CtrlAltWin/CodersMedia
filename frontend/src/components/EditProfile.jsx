@@ -18,17 +18,15 @@ const EditProfile = ({
   Skills,
 }) => {
   return (
-    <div className="flex justify-center mt-[58px]">
-      <div className="card card-bordered bg-base-200 w-[380px] shadow-lg ">
+    <div className="flex justify-center mt-[74px]">
+      <div className="card bg-base-200 shadow-lg h-[590px] w-[400px]">
         <div className="card-body items-center">
-          <h2 className="card-title">Edit Profile</h2>
-
           {/* Placing Input Boxes */}
-
+          <h2 className="card-title">Edit Profile</h2>
           <fieldset className="fieldset">
             <input
               type="text"
-              className="input input-bordered mt-3 w-[300px]"
+              className="input input-bordered mt-2 w-[300px]"
               placeholder={FirstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -37,7 +35,7 @@ const EditProfile = ({
           <fieldset className="fieldset">
             <input
               type="text"
-              className="input input-bordered mt-3 w-[300px]"
+              className="input input-bordered mt-2 w-[300px]"
               placeholder={LastName}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -48,7 +46,7 @@ const EditProfile = ({
           <fieldset className="fieldset">
             <input
               type="text"
-              className="input input-bordered mt-3 w-[300px]"
+              className="input input-bordered mt-2 w-[300px]"
               placeholder={PhotoUrl}
               onChange={(e) => {
                 setPhotoUrl(e.target.value);
@@ -59,7 +57,7 @@ const EditProfile = ({
           <fieldset className="fieldset">
             <input
               type="text"
-              className="input input-bordered mt-3 w-[300px]"
+              className="input input-bordered mt-2 w-[300px]"
               placeholder={Skills}
               onChange={(e) => {
                 setSkills(e.target.value);
@@ -70,7 +68,7 @@ const EditProfile = ({
           <AboutInput PlaceHolder={"About"} setAbout={setAbout} About={About} />
 
           <div className="card-actions">
-            <button className="btn btn-outline btn-success mt-4">Edit</button>
+            <button className="btn btn-outline btn-success mt-2">Edit</button>
           </div>
         </div>
       </div>

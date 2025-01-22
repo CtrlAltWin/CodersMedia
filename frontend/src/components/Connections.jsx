@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { baseUrl } from "../Utils/url";
 import axios from "axios";
-
 const Connections = () => {
   const [Connections, setConnections] = useState(null);
   const [Show, setShow] = useState(true);
@@ -15,13 +14,16 @@ const Connections = () => {
     fetch();
   }, []);
 
-  if (Connections === null) return <div></div>;
+  if (Connections === null)
+    return (
+      <div className="flex flex-col items-center w-4/12 gap-6 bg-base-200 p-4 rounded-3xl h-56"></div>
+    );
 
   return (
     <div className="flex flex-col items-center w-4/12 gap-6 bg-base-200 p-4 rounded-3xl">
       {/* heading */}
       <h2
-        className="font-extralight text-lg p-2"
+        className="font-mono text-lg p-2"
         onClick={() => {
           setShow(Show === true ? false : true);
         }}
