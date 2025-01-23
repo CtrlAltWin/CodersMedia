@@ -14,10 +14,17 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
   res.send(user);
 });
 
-profileRouter.patch("/profileEdit", userAuth, async (req, res) => {
+profileRouter.patch("/profile/Edit", userAuth, async (req, res) => {
   try {
     const user = req.user;
-    const allowedEdit = ["age", "photo_URL", "about", "skills"];
+    const allowedEdit = [
+      "age",
+      "photo_URL",
+      "about",
+      "skills",
+      "firstName",
+      "lastName",
+    ];
     const isEditPossible = Object.keys(req.body).every((key) =>
       allowedEdit.includes(key)
     );

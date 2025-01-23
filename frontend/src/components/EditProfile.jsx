@@ -15,6 +15,8 @@ const EditProfile = ({
   photoURL,
   about,
   skills,
+  setShowToast,
+  updateProfile,
 }) => {
   return (
     <div className="flex justify-center mt-[76px]">
@@ -65,7 +67,19 @@ const EditProfile = ({
           <AboutInput PlaceHolder={"About"} setAbout={setAbout} about={about} />
 
           <div className="card-actions">
-            <button className="btn btn-outline btn-success mt-3">Edit</button>
+            <button
+              className="btn btn-outline btn-success mt-3"
+              onClick={() => {
+                // Call API to update user data
+                try {
+                  updateProfile();
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+            >
+              Edit
+            </button>
           </div>
         </div>
       </div>
