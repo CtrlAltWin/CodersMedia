@@ -23,15 +23,15 @@ const Connections = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center w-full h-[calc(100vh-4rem)] py-8 px-4 bg-base-100">
-      <div className="bg-base-200 opacity-80 shadow-lg rounded-2xl p-6 w-full max-w-3xl">
+    <div className="flex flex-col items-center w-full h-[calc(100vh-4rem)] py-6 px-4 bg-base-100">
+      <div className="bg-base-200 opacity-90 shadow-md rounded-xl p-5 w-full max-w-2xl">
         {/* Header */}
-        <div className="flex justify-between items-center border-b pb-3 mb-4">
-          <h2 className="text-xl font-semibold">
+        <div className="flex justify-between items-center border-b pb-2 mb-3">
+          <h2 className="text-lg font-semibold">
             Connections ({connections?.length})
           </h2>
           <button
-            className="btn btn-primary text-white px-4 py-2 rounded-lg shadow"
+            className="btn btn-primary text-white px-3 py-1 rounded-md shadow"
             onClick={() => navigate("/connectionRequests")}
           >
             View Requests
@@ -39,23 +39,35 @@ const Connections = () => {
         </div>
 
         {/* Connection List */}
-        <div className="flex flex-col items-center gap-4 overflow-y-auto max-h-[70vh]">
+        <div className="flex flex-col items-center gap-3 overflow-y-auto max-h-[65vh]">
           {connections.length > 0 ? (
             connections.map((connection) => (
               <div
                 key={connection._id}
-                className="flex bg-base-300 items-center gap-4 p-3 rounded-xl shadow-sm transition w-full border max-w-md"
+                className="flex items-center justify-between bg-base-300 w-full max-w-md p-2 rounded-lg shadow-sm border transition-all hover:bg-base-200"
               >
                 {/* Profile Image */}
                 <img
-                  className="w-12 h-12 rounded-full object-cover border"
+                  className="w-10 h-10 rounded-full object-cover border"
                   src={connection.photoURL || "/defaultUser.png"}
                   alt="User"
                 />
-                {/* Name */}
-                <p className="font-medium flex-1">
-                  {connection.firstName + " " + connection.lastName}
-                </p>
+                {/* Name and About */}
+                <div className="flex-1 mx-3">
+                  <p className="font-medium text-sm">
+                    {connection.firstName + " " + connection.lastName}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate max-w-[150px]">
+                    {connection.about || "No about info"}
+                  </p>
+                </div>
+                {/* Chat Icon */}
+                <button
+                  className="text-gray-500 hover:text-primary transition"
+                  onClick={() => console.log("Chat with", connection._id)}
+                >
+                  💬
+                </button>
               </div>
             ))
           ) : (
@@ -70,3 +82,5 @@ const Connections = () => {
 };
 
 export default Connections;
+
+

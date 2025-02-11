@@ -41,15 +41,15 @@ const ConnectionRequests = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-[calc(100vh-4rem)] py-8 px-4 bg-base-100">
-      <div className="bg-base-200 opacity-80 shadow-lg rounded-2xl p-6 w-full max-w-3xl ">
+    <div className="flex flex-col items-center w-full h-[calc(100vh-4rem)] py-6 px-4 bg-base-100">
+      <div className="bg-base-200 opacity-90 shadow-md rounded-xl p-5 w-full max-w-2xl">
         {/* Header */}
-        <div className="flex justify-between items-center border-b pb-3 mb-4">
-          <h2 className="text-xl font-semibold">
+        <div className="flex justify-between items-center border-b pb-2 mb-3">
+          <h2 className="text-lg font-semibold">
             Connection Requests ({requests?.length})
           </h2>
           <button
-            className="btn btn-primary text-white px-4 py-2 rounded-lg shadow"
+            className="btn btn-primary text-white px-3 py-1 rounded-md shadow"
             onClick={() => navigate("/connections")}
           >
             View Connections
@@ -57,34 +57,38 @@ const ConnectionRequests = () => {
         </div>
 
         {/* Request List */}
-        <div className="flex flex-col items-center gap-4 overflow-y-auto max-h-[70vh]">
+        <div className="flex flex-col items-center gap-3 overflow-y-auto max-h-[65vh]">
           {requests.length > 0 ? (
             requests.map((request) => (
               <div
                 key={request.requestId}
-                className="flex items-center bg-base-300 gap-4 p-3 rounded-full shadow-sm transition border w-full max-w-md"
+                className="flex items-center justify-between bg-base-300 w-full max-w-md p-2 rounded-lg shadow-sm border transition-all hover:bg-base-200"
               >
                 {/* Profile Image */}
                 <img
-                  className="w-12 h-12 rounded-full object-cover border"
+                  className="w-10 h-10 rounded-full object-cover border"
                   src={request.sender.photoURL || "/defaultUser.png"}
                   alt="User"
                 />
-                {/* Name */}
-                <p className="font-medium flex-1">
-                  {request.sender.firstName + " " + request.sender.lastName}
-                </p>
-
+                {/* Name and About */}
+                <div className="flex-1 mx-3">
+                  <p className="font-medium text-sm">
+                    {request.sender.firstName + " " + request.sender.lastName}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate max-w-[150px]">
+                    {request.sender.about || "No about info"}
+                  </p>
+                </div>
                 {/* Buttons */}
                 <div className="flex gap-2">
                   <button
-                    className="btn btn-error btn-sm text-white hover:bg-red-700 transition"
+                    className="btn btn-error btn-xs text-white hover:bg-red-700 transition"
                     onClick={() => handleRequest(request.requestId, "rejected")}
                   >
                     Reject
                   </button>
                   <button
-                    className="btn btn-primary btn-sm text-white hover:bg-blue-700 transition"
+                    className="btn btn-primary btn-xs text-white hover:bg-blue-700 transition"
                     onClick={() => handleRequest(request.requestId, "accepted")}
                   >
                     Accept
@@ -104,3 +108,4 @@ const ConnectionRequests = () => {
 };
 
 export default ConnectionRequests;
+

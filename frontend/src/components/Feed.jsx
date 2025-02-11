@@ -28,7 +28,8 @@ const Feed = () => {
     fetch();
     return <div></div>;
   }
-  const { _id, firstName, lastName, skills, about, photoURL } = feed[0];
+  const { _id, firstName, lastName, skills, about, photoURL, age, gender } =
+    feed[0];
   const handleSwipe = async (status, id) => {
     await axios.post(
       baseUrl + "/request/send/" + status + "/" + id,
@@ -75,6 +76,8 @@ const Feed = () => {
             Skills={skills}
             About={about}
             PhotoUrl={photoURL}
+            Age={age}
+            Gender={gender}
           />
         )}
       </motion.div>

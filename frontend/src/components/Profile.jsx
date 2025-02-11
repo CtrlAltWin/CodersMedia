@@ -11,7 +11,8 @@ const Profile = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   if (!user) return <div></div>;
-  const { firstName, lastName, emailId, skills, age, photoURL, about } = user;
+  const { firstName, lastName, emailId, skills, age, photoURL, about, gender } =
+    user;
   const skillsString = skills.join(", ");
   const updateProfile = async () => {
     try {
@@ -36,6 +37,8 @@ const Profile = () => {
         PhotoUrl={photoURL}
         About={about}
         Skills={skills}
+        Age={age}
+        Gender={gender}
       />
       <button
         className="btn btn-primary mt-6 p-4"

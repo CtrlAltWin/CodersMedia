@@ -11,12 +11,14 @@ import Profile from "./components/Profile.jsx";
 import ConnectionsPage from "./components/ConnectionsPage.jsx";
 import ConnectionRequests from "./components/ConnectionRequests.jsx";
 import EditProfile from "./components/EditProfile.jsx";
+import AuthPage from "./components/AuthPage.jsx";
+
 const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { path: "/", element: <LoginPage /> },
+      { path: "/", element: <AuthPage /> },
       { path: "/feed", element: <Feed /> },
       { path: "/profile", element: <Profile /> },
       { path: "connections", element: <ConnectionsPage /> },
