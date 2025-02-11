@@ -1,6 +1,6 @@
 import React from "react";
 
-const GenderInput = ({Gender, setGender}) => {
+const GenderInput = ({ Gender, setGender }) => {
   return (
     <div>
       <input

@@ -5,7 +5,7 @@ const TextInput = ({ PlaceHolder }) => {
     <fieldset className="fieldset">
       <input
         type="text"
-        className="input input-bordered mt-3 w-[300px]"
+        className="input input-bordered w-[300px]"
         placeholder={PlaceHolder}
       />
     </fieldset>

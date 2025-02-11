@@ -3,7 +3,7 @@ import React from "react";
 const EmailInput = () => {
   return (
     <div>
-      <label className="input input-bordered flex items-center gap-2 my-4 w-[280px]">
+      <label className="input input-bordered flex items-center gap-2 w-[280px]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"

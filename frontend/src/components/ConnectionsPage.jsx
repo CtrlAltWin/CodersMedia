@@ -5,15 +5,7 @@ import { useNavigate } from "react-router-dom";
 const ConnectionsPage = () => {
   const navigate = useNavigate();
   return (
-    <div className="mt-28 flex flex-col gap-10 items-center ">
-      <button
-        className="btn btn-primary w-3/12 font-mono"
-        onClick={() => {
-          navigate("/connectionRequests");
-        }}
-      >
-        Requests
-      </button>
+    <div className="w-full flex justify-center h-[calc(100vh-4rem)] pb-8">
       <Connections />
     </div>
   );

@@ -1,102 +1,103 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../Utils/url";
-import {
-  addConnectionRequests,
-  removeConnectionRequest,
-} from "../Utils/connectionRequestSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ConnectionRequests = () => {
-  const dispatch = useDispatch();
-  const fetch = async () => {
-    const connectionRequests = await axios.get(
-      baseUrl + "/user/request/recieved/pending",
-      {
-        withCredentials: true,
-      }
-    );
-    dispatch(addConnectionRequests(connectionRequests.data.requests));
+  const [requests, setRequests] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchRequests = async () => {
+    try {
+      const { data } = await axios.get(
+        `${baseUrl}/user/request/recieved/pending`,
+        {
+          withCredentials: true,
+        }
+      );
+      setRequests(data.requests);
+    } catch (error) {
+      console.error("Error fetching connection requests:", error);
+    }
   };
-  const [Show, setShow] = useState(false);
-  const Requests = useSelector((store) => store.connectionRequest);
+
   useEffect(() => {
-    fetch();
+    fetchRequests();
   }, []);
 
+  const handleRequest = async (requestId, action) => {
+    try {
+      await axios.post(
+        `${baseUrl}/request/review/${action}/${requestId}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      setRequests((prev) => prev.filter((req) => req.requestId !== requestId));
+    } catch (error) {
+      console.error(`Error ${action}ing request:`, error);
+    }
+  };
+
   return (
-    <div className="flex flex-grow justify-center">
-      <div className="flex flex-col items-center w-4/12 gap-6 bg-base-200 p-4 rounded-3xl mt-36">
-        {/* heading */}
-        <h2
-          className="font-mono text-lg p-2"
-          onClick={() => {
-            setShow(Show === true ? false : true);
-          }}
-        >
-          {"Requests (" + Requests?.length + ")"}
-        </h2>
+    <div className="flex flex-col items-center w-full h-[calc(100vh-4rem)] py-8 px-4 bg-base-100">
+      <div className="bg-base-200 opacity-80 shadow-lg rounded-2xl p-6 w-full max-w-3xl ">
+        {/* Header */}
+        <div className="flex justify-between items-center border-b pb-3 mb-4">
+          <h2 className="text-xl font-semibold">
+            Connection Requests ({requests?.length})
+          </h2>
+          <button
+            className="btn btn-primary text-white px-4 py-2 rounded-lg shadow"
+            onClick={() => navigate("/connections")}
+          >
+            View Connections
+          </button>
+        </div>
 
-        {/* content */}
+        {/* Request List */}
+        <div className="flex flex-col items-center gap-4 overflow-y-auto max-h-[70vh]">
+          {requests.length > 0 ? (
+            requests.map((request) => (
+              <div
+                key={request.requestId}
+                className="flex items-center bg-base-300 gap-4 p-3 rounded-full shadow-sm transition border w-full max-w-md"
+              >
+                {/* Profile Image */}
+                <img
+                  className="w-12 h-12 rounded-full object-cover border"
+                  src={request.sender.photoURL || "/defaultUser.png"}
+                  alt="User"
+                />
+                {/* Name */}
+                <p className="font-medium flex-1">
+                  {request.sender.firstName + " " + request.sender.lastName}
+                </p>
 
-        {Show && (
-          <div className="flex flex-col gap-4">
-            {Requests.map((Request) => {
-              return (
-                <div key={Request.requestId} className="flex gap-2">
-                  <img
-                    className="w-11 h-11 rounded-full"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp5IMvU5mzUNUAVtUPVexkzgt3cDPUE6113Q&s"
-                    alt=""
-                  />
-                  <p className="p-2 font-extralight">
-                    {Request.sender.firstName + " " + Request.sender.lastName}
-                  </p>
-
-                  {/* accept and reject buttons */}
-
-                  <div className="ml-auto flex gap-2">
-                    <button
-                      className="btn btn-secondary"
-                      onClick={async () => {
-                        await axios.post(
-                          baseUrl +
-                            "/request/review/rejected/" +
-                            Request.requestId,
-                          {},
-                          {
-                            withCredentials: true,
-                          }
-                        );
-                        dispatch(removeConnectionRequest(Request.requestId));
-                      }}
-                    >
-                      reject
-                    </button>
-                    <button
-                      className="btn btn-primary mx-auto"
-                      onClick={async () => {
-                        const req_id = Request.requestId;
-                        await axios.post(
-                          baseUrl +
-                            "/request/review/accepted/" +
-                            Request.requestId,
-                          {},
-                          {
-                            withCredentials: true,
-                          }
-                        );
-                        dispatch(removeConnectionRequest(Request.requestId));
-                      }}
-                    >
-                      Accept
-                    </button>
-                  </div>
+                {/* Buttons */}
+                <div className="flex gap-2">
+                  <button
+                    className="btn btn-error btn-sm text-white hover:bg-red-700 transition"
+                    onClick={() => handleRequest(request.requestId, "rejected")}
+                  >
+                    Reject
+                  </button>
+                  <button
+                    className="btn btn-primary btn-sm text-white hover:bg-blue-700 transition"
+                    onClick={() => handleRequest(request.requestId, "accepted")}
+                  >
+                    Accept
+                  </button>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 text-center w-full">
+              No pending requests
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

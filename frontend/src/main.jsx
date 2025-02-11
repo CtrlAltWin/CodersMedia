@@ -10,6 +10,7 @@ import appStore from "./Utils/appStore";
 import Profile from "./components/Profile.jsx";
 import ConnectionsPage from "./components/ConnectionsPage.jsx";
 import ConnectionRequests from "./components/ConnectionRequests.jsx";
+import EditProfile from "./components/EditProfile.jsx";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -19,7 +20,8 @@ const appRouter = createBrowserRouter([
       { path: "/feed", element: <Feed /> },
       { path: "/profile", element: <Profile /> },
       { path: "connections", element: <ConnectionsPage /> },
-      {path: "/connectionRequests", element: <ConnectionRequests/>}
+      {path: "/connectionRequests", element: <ConnectionRequests/>},
+      {path: "/editProfile", element: <EditProfile/>}
     ],
   },
 ]);

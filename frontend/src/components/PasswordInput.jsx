@@ -3,7 +3,7 @@ import React from "react";
 const PasswordInput = ({ setPassword }) => {
   return (
     <div>
-      <label className="input input-bordered flex items-center my-4 w-[280px]">
+      <label className="input input-bordered flex items-center w-[280px]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"

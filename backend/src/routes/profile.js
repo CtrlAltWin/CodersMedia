@@ -19,7 +19,7 @@ profileRouter.patch("/profile/Edit", userAuth, async (req, res) => {
     const user = req.user;
     const allowedEdit = [
       "age",
-      "photo_URL",
+      "photoURL",
       "about",
       "skills",
       "firstName",

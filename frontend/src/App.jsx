@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 import LoginPage from "./components/LoginPage";
 import Navbar from "./components/Navbar";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addUser } from "./Utils/userSlice";
 import axios from "axios";
 import { baseUrl } from "./Utils/url";
@@ -24,13 +24,14 @@ function App() {
     }
   };
 
-  fetchUser();
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <div>
       <Navbar />
       <Outlet />
-      <Footer />
     </div>
   );
 }
