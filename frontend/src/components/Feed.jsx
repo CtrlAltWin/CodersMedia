@@ -26,7 +26,7 @@ const Feed = () => {
 
   if (feed.length === 0) {
     fetch();
-    return <div></div>;
+    return <div className="h-[calc(100vh-4rem)] w-full text-center p-4">Cant't find new users...</div>;
   }
   const { _id, firstName, lastName, skills, about, photoURL, age, gender } =
     feed[0];

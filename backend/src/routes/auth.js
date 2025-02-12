@@ -22,7 +22,7 @@ authRouter.post("/signup", async (req, res) => {
     await user.save();
     res.send("user added successfully");
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(400).json(err.message);
   }
 });
 
@@ -45,7 +45,7 @@ authRouter.post("/login", async (req, res) => {
     res.cookie("token", token);
     res.send(user);
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(400).json(err.message);
   }
 });
 
@@ -56,7 +56,7 @@ authRouter.post("/logout", async (req, res) => {
     });
     res.send("user logged out successfully");
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).json(err.message);
   }
 });
 

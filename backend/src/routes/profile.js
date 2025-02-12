@@ -38,7 +38,7 @@ profileRouter.patch("/profile/Edit", userAuth, async (req, res) => {
       throw new Error("this is not allowed");
     }
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(400).json(err.message);
   }
 });
 

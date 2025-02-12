@@ -10,8 +10,8 @@ userRouter.get("/user/request/recieved/pending", userAuth, async (req, res) => {
       toUserId: loggedInUserId,
       status: "interested",
     })
-      .populate("fromUserId", "firstName lastName")
-      .populate("toUserId", "firstName lastName");
+      .populate("fromUserId", "firstName lastName age about photoURL")
+      .populate("toUserId", "firstName lastName age about photoURL");
     const data = pendingRequests.map((Request) => {
       return {
         requestId: Request._id,
@@ -34,8 +34,8 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
       $or: [{ fromUserId: loggedInUserId }, { toUserId: loggedInUserId }],
       status: "accepted",
     })
-      .populate("fromUserId", "firstName lastName")
-      .populate("toUserId", "firstName lastName");
+      .populate("fromUserId", "firstName lastName age about photoURL")
+      .populate("toUserId", "firstName lastName age about");
     const data = connections.map((connection) => {
       const person = connection.fromUserId._id.equals(loggedInUserId)
         ? connection.toUserId
@@ -55,6 +55,7 @@ const USER_SAFE_DATA = [
   "skills",
   "photoURL",
   "about",
+  "gender",
 ];
 
 userRouter.get("/feed", userAuth, async (req, res) => {

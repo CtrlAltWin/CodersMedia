@@ -24,7 +24,7 @@ const Connections = () => {
 
   return (
     <div className="flex flex-col items-center w-full h-[calc(100vh-4rem)] py-6 px-4 bg-base-100">
-      <div className="bg-base-200 opacity-90 shadow-md rounded-xl p-5 w-full max-w-2xl">
+      <div className="bg-base-200 opacity-90 shadow-md rounded-xl p-5 w-full max-w-2xl border">
         {/* Header */}
         <div className="flex justify-between items-center border-b pb-2 mb-3">
           <h2 className="text-lg font-semibold">
@@ -61,11 +61,8 @@ const Connections = () => {
                     {connection.about || "No about info"}
                   </p>
                 </div>
-                {/* Chat Icon */}
-                <button
-                  className="text-gray-500 hover:text-primary transition"
-                  onClick={() => console.log("Chat with", connection._id)}
-                >
+                {/* Chat Icon- To be implemented later */}
+                <button className="text-gray-500 hover:text-primary transition">
                   💬
                 </button>
               </div>
@@ -82,5 +79,3 @@ const Connections = () => {
 };
 
 export default Connections;
-
-

@@ -27,7 +27,7 @@ const Navbar = () => {
       dispatch(removeUser());
       navigate("/");
     } catch (err) {
-      console.log("Error: " + res);
+      console.log("Error: " + err.message);
     }
   };
 
@@ -65,15 +65,21 @@ const Navbar = () => {
                 )}
               </summary>
               <ul className="bg-base-100 rounded-t-none p-2">
-                <li className="sm:hidden">
-                  <Link to={"/profile"}>Profile</Link>
-                </li>
-                <li className="sm:hidden">
-                  <Link to="/feed">Feed</Link>
-                </li>
-                <li className="sm:hidden">
-                  <Link to="/connections">Connectons</Link>
-                </li>
+                {user && (
+                  <li className="sm:hidden">
+                    <Link to={"/profile"}>Profile</Link>
+                  </li>
+                )}
+                {user && (
+                  <li className="sm:hidden">
+                    <Link to="/feed">Feed</Link>
+                  </li>
+                )}
+                {user && (
+                  <li className="sm:hidden">
+                    <Link to="/connections">Connectons</Link>
+                  </li>
+                )}
 
                 {user && (
                   <li>

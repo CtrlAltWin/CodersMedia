@@ -32,7 +32,7 @@ const UserCard = ({
           {FirstName + " " + LastName}
         </h2>
         <h4 className="text-xl text-center font-semibold w-auto overflow-hidden text-ellipsis">
-          {Age + " (" + Gender + ")"}
+          {Age + ", " + Gender}
         </h4>
         <p className="text-2xl text-center text-gray-500 mt-2 w-full whitespace-nowrap overflow-hidden text-ellipsis">
           {About}

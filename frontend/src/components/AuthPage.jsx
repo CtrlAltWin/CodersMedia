@@ -7,6 +7,7 @@ import { baseUrl } from "../Utils/url";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [ErrorMsg, setErrorMsg] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -56,15 +57,15 @@ const AuthPage = () => {
         navigate("/editProfile");
       }
     } catch (err) {
-      console.log("Error: " + err);
+      setErrorMsg(err.response.data);
     }
   };
 
   return (
-    <div className="flex justify-center items-center py-8">
+    <div className="flex justify-center items-center p-8">
       <div
         className={`card border bg-base-200 w-[380px] shadow-xl  transition-all duration-300 ${
-          isLogin ? "h-[500px]" : "h-[800px]"
+          isLogin ? "h-[500px]" : "h-[870px]"
         }`}
       >
         <div className="card-body items-center">
@@ -156,6 +157,8 @@ const AuthPage = () => {
               </fieldset>
             </>
           )}
+
+          <h3 className="text-red-500 text-center">{ErrorMsg}</h3>
 
           {/* Submit Button */}
           <div className="card-actions">

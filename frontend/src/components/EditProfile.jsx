@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { AboutInput } from "./AboutInput";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { baseUrl } from "../Utils/url";
@@ -13,6 +12,7 @@ const EditProfile = () => {
   const [PhotoUrl, setPhotoUrl] = useState("");
   const [Skills, setSkills] = useState("");
   const [About, setAbout] = useState("");
+  const [ErrMsg, setErrMsg] = useState("");
 
   const user = useSelector((store) => store.user);
   const { firstName, lastName, skills, photoURL, about } = user || {};
@@ -42,12 +42,11 @@ const EditProfile = () => {
       dispatch(addUser(edit));
       setShowToast(true);
 
-      // Close toast after 2.5 seconds
       setTimeout(() => {
         setShowToast(false);
       }, 2500);
     } catch (err) {
-      console.log(err);
+      setErrMsg(err.response.data);
     }
   };
 
@@ -108,7 +107,12 @@ const EditProfile = () => {
 
           <fieldset className="fieldset w-full">
             <label className="label text-sm font-semibold">About</label>
-            <AboutInput PlaceHolder="About" setAbout={setAbout} about={about} />
+            <textarea
+              className="textarea textarea-bordered w-[300px] h-24"
+              placeholder={about}
+              value={About}
+              onChange={(e) => setAbout(e.target.value)}
+            />
           </fieldset>
 
           <div className="card-actions">

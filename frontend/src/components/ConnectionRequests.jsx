@@ -42,7 +42,7 @@ const ConnectionRequests = () => {
 
   return (
     <div className="flex flex-col items-center w-full h-[calc(100vh-4rem)] py-6 px-4 bg-base-100">
-      <div className="bg-base-200 opacity-90 shadow-md rounded-xl p-5 w-full max-w-2xl">
+      <div className="bg-base-200 opacity-90 shadow-md rounded-xl p-5 w-full max-w-2xl border">
         {/* Header */}
         <div className="flex justify-between items-center border-b pb-2 mb-3">
           <h2 className="text-lg font-semibold">
@@ -82,13 +82,13 @@ const ConnectionRequests = () => {
                 {/* Buttons */}
                 <div className="flex gap-2">
                   <button
-                    className="btn btn-error btn-xs text-white hover:bg-red-700 transition"
+                    className="btn btn-ghost btn-xs text-white"
                     onClick={() => handleRequest(request.requestId, "rejected")}
                   >
                     Reject
                   </button>
                   <button
-                    className="btn btn-primary btn-xs text-white hover:bg-blue-700 transition"
+                    className="btn btn-ghost btn-xs text-white "
                     onClick={() => handleRequest(request.requestId, "accepted")}
                   >
                     Accept
@@ -108,4 +108,3 @@ const ConnectionRequests = () => {
 };
 
 export default ConnectionRequests;
-
