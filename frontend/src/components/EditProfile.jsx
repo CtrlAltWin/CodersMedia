@@ -1,135 +1,50 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
-import { baseUrl } from "../Utils/url";
-import { addUser } from "../Utils/userSlice";
+import React from "react";
+import LeftPannel from "./LeftPannel";
+import RightPanel from "./RightPannel";
+import EditProfileForm from "./EditProfileForm";
 
 const EditProfile = () => {
-  const dispatch = useDispatch();
-  const [ShowToast, setShowToast] = useState(false);
-  const [FirstName, setFirstName] = useState("");
-  const [LastName, setLastName] = useState("");
-  const [PhotoUrl, setPhotoUrl] = useState("");
-  const [Skills, setSkills] = useState("");
-  const [About, setAbout] = useState("");
-  const [ErrMsg, setErrMsg] = useState("");
-
-  const user = useSelector((store) => store.user);
-  const { firstName, lastName, skills, photoURL, about } = user || {};
-
-  const handleEditProfile = async () => {
-    const skillsArray = Skills.split(",").map((skill) => skill.trim());
-    const newFirstName = FirstName.length > 0 ? FirstName : firstName;
-    const newLastName = LastName.length > 0 ? LastName : lastName;
-    const newAbout = About.length > 0 ? About : about;
-    const newSkills =
-      skillsArray.length === 1 && skillsArray[0] === "" ? skills : skillsArray;
-    const newPhotoUrl = PhotoUrl.length > 0 ? PhotoUrl : photoURL;
-
-    const edit = {
-      firstName: newFirstName,
-      lastName: newLastName,
-      photoURL: newPhotoUrl,
-      about: newAbout,
-      skills: newSkills,
-    };
-
-    try {
-      await axios.patch(baseUrl + "/profile/Edit", edit, {
-        withCredentials: true,
-      });
-
-      dispatch(addUser(edit));
-      setShowToast(true);
-
-      setTimeout(() => {
-        setShowToast(false);
-      }, 2500);
-    } catch (err) {
-      setErrMsg(err.response.data);
-    }
-  };
-
   return (
-    <div className="flex justify-center h-[calc(100vh-4rem)] p-6">
-      {/* Toast Notification */}
-      {ShowToast && (
-        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50">
-          <div className="alert alert-success shadow-lg">
-            <span>Profile updated successfully!</span>
-          </div>
-        </div>
-      )}
+    <div className="grid md:grid-cols-[1fr_450px_1fr] h-[calc(100vh-5rem)]">
+      {/* Left Branding Panel */}
+      <div className="hidden md:flex">
+        <LeftPannel />
+      </div>
 
-      <div className="card bg-base-200 border-1 shadow-xl h-[640px] w-[330px] border">
-        <div className="card-body items-center">
-          <h2 className="card-title">Edit Profile</h2>
+      {/* Center Form */}
+      <div className="flex justify-center py-2">
+        <EditProfileForm />
+      </div>
 
-          <fieldset className="fieldset w-full">
-            <label className="label text-sm font-semibold">First Name</label>
-            <input
-              type="text"
-              className="input input-bordered w-[300px]"
-              placeholder={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </fieldset>
-
-          <fieldset className="fieldset w-full">
-            <label className="label text-sm font-semibold">Last Name</label>
-            <input
-              type="text"
-              className="input input-bordered w-[300px]"
-              placeholder={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </fieldset>
-
-          <fieldset className="fieldset w-full">
-            <label className="label text-sm font-semibold">Photo URL</label>
-            <input
-              type="text"
-              className="input input-bordered w-[300px]"
-              placeholder={photoURL}
-              onChange={(e) => setPhotoUrl(e.target.value)}
-            />
-          </fieldset>
-
-          <fieldset className="fieldset w-full">
-            <label className="label text-sm font-semibold">Skills</label>
-            <input
-              type="text"
-              className="input input-bordered w-[300px]"
-              placeholder={skills}
-              onChange={(e) => setSkills(e.target.value)}
-            />
-          </fieldset>
-
-          <fieldset className="fieldset w-full">
-            <label className="label text-sm font-semibold">About</label>
-            <textarea
-              className="textarea textarea-bordered w-[300px] h-24"
-              placeholder={about}
-              value={About}
-              onChange={(e) => setAbout(e.target.value)}
-            />
-          </fieldset>
-
-          <div className="card-actions">
-            <button
-              className="btn btn-outline btn-success"
-              onClick={() => {
-                try {
-                  handleEditProfile();
-                } catch (error) {
-                  console.log(error);
-                }
-              }}
-            >
-              Edit
-            </button>
-          </div>
-        </div>
+      {/* Right Info Panel */}
+      <div className="hidden md:flex">
+        <RightPanel
+          title="Keep Your Profile Updated"
+          message={
+            <>
+              <p className="mb-3">
+                A{" "}
+                <span className="text-blue-600 font-medium">
+                  well-filled profile
+                </span>{" "}
+                increases your chances of{" "}
+                <span className="text-purple-600 font-medium">
+                  meaningful connections
+                </span>
+                .
+              </p>
+              <p>
+                Add your{" "}
+                <span className="text-green-600 font-medium">
+                  latest skills
+                </span>{" "}
+                and a{" "}
+                <span className="text-yellow-600 font-medium">short bio</span>{" "}
+                to let others know what you're up to.
+              </p>
+            </>
+          }
+        />
       </div>
     </div>
   );

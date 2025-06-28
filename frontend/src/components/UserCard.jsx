@@ -1,8 +1,4 @@
 import React from "react";
-import { baseUrl } from "../Utils/url";
-import { removeUserFromFeed } from "../Utils/feedSlice";
-import { useDispatch } from "react-redux";
-import axios from "axios";
 
 const UserCard = ({
   Id,
@@ -14,32 +10,43 @@ const UserCard = ({
   Age,
   Gender,
 }) => {
-  const dispatch = useDispatch();
-  const skillsArr = Skills.map((skill, i) => {
-    return i < Skills.length - 1 ? skill + ", " : skill;
-  });
   return (
-    <div className="card bg-base-200 h-[550px] w-[330px] shadow-xl border">
-      <figure>
-        <img
-          className="h-[300px] w-[395px] object-cover"
-          src={PhotoUrl || "/defaultUser.png"}
-          alt="User"
-        />
-      </figure>
-      <div className="card-body items-center object-cover">
-        <h2 className="text-2xl text-center font-bold w-auto overflow-hidden text-ellipsis">
-          {FirstName + " " + LastName}
-        </h2>
-        <h4 className="text-xl text-center font-semibold w-auto overflow-hidden text-ellipsis">
-          {Age + ", " + Gender}
-        </h4>
-        <p className="text-2xl text-center text-gray-500 mt-2 w-full whitespace-nowrap overflow-hidden text-ellipsis">
-          {About}
-        </p>
-        <p className="text-xl text-center text-gray-500 mt-2 font-thin  w-full whitespace-nowrap overflow-hidden text-ellipsis">
-          {skillsArr}
-        </p>
+    <div className="max-w-[440px] w-full h-[600px] border rounded overflow-hidden">
+      <img
+        className="w-full h-[400px] object-cover"
+        src={PhotoUrl || "/defaultUser.png"}
+        alt={`${FirstName} ${LastName}`}
+      />
+
+      <div className="px-6 py-5 space-y-4">
+        {/* Name + Age/Gender */}
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-semibold truncate">
+            {FirstName} {LastName}
+          </h2>
+          <span className="text-sm font-medium px-3 py-1 bg-gray-100 rounded-full border">
+            {Age} • {Gender}
+          </span>
+        </div>
+
+        {/* About */}
+        <div>
+          <p className="text-base text-gray-700 line-clamp-2">{About}</p>
+        </div>
+
+        {/* Skills */}
+        <div>
+          <div className="flex flex-wrap gap-2">
+            {Skills?.map((skill, idx) => (
+              <span
+                key={idx}
+                className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-full"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

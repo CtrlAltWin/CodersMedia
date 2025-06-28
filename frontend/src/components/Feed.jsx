@@ -5,9 +5,12 @@ import { baseUrl } from "../Utils/url";
 import { addFeed, removeUserFromFeed } from "../Utils/feedSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "motion/react";
+import { Heart, X } from "lucide-react";
+import LeftPannel from "./LeftPannel";
+import RightPanel from "./RightPannel";
 
 const Feed = () => {
-  const [X, setX] = useState(0);
+  const [swipeOffset, setSwipeOffset] = useState(0);
   const dispatch = useDispatch();
   const feed = useSelector((store) => store.feed);
   const fetch = async () => {
@@ -20,16 +23,27 @@ const Feed = () => {
       console.error(error.message);
     }
   };
+
   useEffect(() => {
-    fetch();
+    if (feed.length == 0) fetch();
   }, []);
 
   if (feed.length === 0) {
-    fetch();
-    return <div className="h-[calc(100vh-4rem)] w-full text-center p-4">Cant't find new users...</div>;
+    return (
+      <div className="min-h-[calc(100vh-4rem)] w-full text-center pt-64">
+        <h2 className="text-xl font-semibold mb-2">
+          🎉 You've swiped through all profiles!
+        </h2>
+        <p className="text-sm">
+          Check back later to discover and connect with more coders.
+        </p>
+      </div>
+    );
   }
+
   const { _id, firstName, lastName, skills, about, photoURL, age, gender } =
     feed[0];
+
   const handleSwipe = async (status, id) => {
     await axios.post(
       baseUrl + "/request/send/" + status + "/" + id,
@@ -39,49 +53,89 @@ const Feed = () => {
       }
     );
     dispatch(removeUserFromFeed(_id));
-    setX(0);
+    setSwipeOffset(0);
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] w-full items-center py-12">
-      <motion.div
-        className="h-[550px] w-[330px]"
-        drag="x"
-        dragConstraints={{
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-        }}
-        whileDrag={{
-          rotate: X / 15,
-          opacity: (200 - Math.abs(X)) / 200,
-        }}
-        onDrag={(event, info) => {
-          if (X > -200 && X < 200) setX(info.offset.x);
-        }}
-        onDragEnd={() => {
-          if (X >= 200) {
-            handleSwipe("interested", _id);
-          } else if (X <= -200) {
-            handleSwipe("ignored", _id);
-          }
-        }}
-      >
-        {Math.abs(X) < 200 && (
-          <UserCard
-            Id={_id}
-            FirstName={firstName}
-            LastName={lastName}
-            Skills={skills}
-            About={about}
-            PhotoUrl={photoURL}
-            Age={age}
-            Gender={gender}
+    <div className="grid md:grid-cols-[1fr_450px_1fr] min-h-[calc(100vh-5rem)]">
+      {/* Left Branding */}
+      <div className="hidden md:flex">
+        <LeftPannel />
+      </div>
+
+      {/* Center Swipe Card */}
+      <div className="flex flex-col items-center py-2">
+        <motion.div
+          className="w-full flex flex-col items-center"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          whileDrag={{
+            rotate: swipeOffset / 25,
+            opacity: 1 - Math.min(Math.abs(swipeOffset) / 300, 0.75),
+          }}
+          onDrag={(event, info) => {
+            const offsetX = info.offset.x;
+            setSwipeOffset(offsetX);
+          }}
+          onDragEnd={() => {
+            if (swipeOffset >= 120) {
+              handleSwipe("interested", _id);
+            } else if (swipeOffset <= -120) {
+              handleSwipe("ignored", _id);
+            } else {
+              setSwipeOffset(0);
+            }
+          }}
+        >
+          {Math.abs(swipeOffset) < 300 && (
+            <UserCard
+              Id={_id}
+              FirstName={firstName}
+              LastName={lastName}
+              Skills={skills}
+              About={about}
+              PhotoUrl={photoURL}
+              Age={age}
+              Gender={gender}
+            />
+          )}
+        </motion.div>
+        <div className="absolute bottom-4 mt-4 flex justify-center gap-8 w-full text-gray-500">
+          <X
+            className="h-12 w-12 p-4 rounded-full bg-red-600 text-white"
+            onClick={() => {
+              handleSwipe("interested", _id);
+            }}
           />
-        )}
-      </motion.div>
-      <p className="p-4 text-lg">{"<--Swipe Left or Right-->"}</p>
+          <Heart
+            className="h-12 w-12 p-4 rounded-full bg-green-600 text-white"
+            onClick={() => {
+              handleSwipe("ignored", _id);
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Right Info Panel */}
+      <div className="hidden md:flex">
+        <RightPanel
+          title="How It Works"
+          message={
+            <>
+              <p className="mb-3">
+                Swipe right to{" "}
+                <span className="font-medium text-green-600">connect</span> with
+                a coder you're interested in.
+              </p>
+              <p>
+                Swipe left to{" "}
+                <span className="font-medium text-red-500">skip</span> and move
+                on to the next profile.
+              </p>
+            </>
+          }
+        />
+      </div>
     </div>
   );
 };

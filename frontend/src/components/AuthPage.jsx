@@ -27,7 +27,6 @@ const AuthPage = () => {
   const handleSubmit = async () => {
     try {
       if (isLogin) {
-        // Login request
         const res = await axios.post(
           baseUrl + "/login",
           { emailId: formData.email, password: formData.password },
@@ -36,7 +35,6 @@ const AuthPage = () => {
         dispatch(addUser(res.data));
         navigate("/Feed");
       } else {
-        // Signup request
         await axios.post(baseUrl + "/signup", {
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -46,7 +44,6 @@ const AuthPage = () => {
           gender: formData.gender,
         });
 
-        // Auto login after successful signup
         const loginRes = await axios.post(
           baseUrl + "/login",
           { emailId: formData.email, password: formData.password },
@@ -57,131 +54,163 @@ const AuthPage = () => {
         navigate("/editProfile");
       }
     } catch (err) {
-      setErrorMsg(err.response.data);
+      setErrorMsg(err.response?.data || "Something went wrong");
     }
   };
 
   return (
-    <div className="flex justify-center items-center p-8">
-      <div
-        className={`card border bg-base-200 w-[380px] shadow-xl  transition-all duration-300 ${
-          isLogin ? "h-[500px]" : "h-[870px]"
-        }`}
+    <div className="flex justify-center items-center min-h-[calc(100vh-5rem)] px-4 py-10">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+        className="flex flex-col w-full max-w-[440px] justify-center gap-6 px-6 py-8 border rounded-md shadow"
       >
-        <div className="card-body items-center">
-          <h2 className="card-title mt-1 mb-4">{isLogin ? "Login" : "Sign Up"}</h2>
+        <h2 className="text-2xl font-semibold text-center text-slate-700">
+          {isLogin ? "Login" : "Sign Up"}
+        </h2>
 
-          {/* Sign-Up Fields */}
-          {!isLogin && (
-            <>
-              <fieldset className="fieldset w-full">
-                <label className="label text-sm font-semibold">First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  className="input input-bordered w-full"
-                  placeholder="Enter first name"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                />
-              </fieldset>
+        {!isLogin && (
+          <>
+            <div>
+              <label
+                htmlFor="firstName"
+                className="block text-sm font-medium mb-1 px-1 text-gray-600"
+              >
+                First Name
+              </label>
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="Enter first name"
+                className="w-full px-3 py-2 border text-sm outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-              <fieldset className="fieldset w-full">
-                <label className="label text-sm font-semibold">Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  className="input input-bordered w-full"
-                  placeholder="Enter last name"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                />
-              </fieldset>
-            </>
-          )}
+            <div>
+              <label
+                htmlFor="lastName"
+                className="block text-sm font-medium mb-1 px-1 text-gray-600"
+              >
+                Last Name
+              </label>
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Enter last name"
+                className="w-full px-3 py-2 border text-sm outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </>
+        )}
 
-          {/* Email Field */}
-          <fieldset className="fieldset w-full">
-            <label className="label text-sm font-semibold">Email</label>
-            <input
-              type="email"
-              name="email"
-              className="input input-bordered w-full"
-              placeholder="Enter email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </fieldset>
-
-          {/* Password Field */}
-          <fieldset className="fieldset w-full">
-            <label className="label text-sm font-semibold">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="input input-bordered w-full"
-              placeholder="Enter password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </fieldset>
-
-          {/* Additional Sign-Up Fields */}
-          {!isLogin && (
-            <>
-              <fieldset className="fieldset w-full">
-                <label className="label text-sm font-semibold">Age</label>
-                <input
-                  type="number"
-                  name="age"
-                  className="input input-bordered w-full"
-                  placeholder="Enter age"
-                  value={formData.age}
-                  onChange={handleChange}
-                />
-              </fieldset>
-
-              <fieldset className="fieldset w-full">
-                <label className="label text-sm font-semibold">Gender</label>
-                <select
-                  name="gender"
-                  className="select select-bordered w-full"
-                  value={formData.gender}
-                  onChange={handleChange}
-                >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="others">Other</option>
-                </select>
-              </fieldset>
-            </>
-          )}
-
-          <h3 className="text-red-500 text-center">{ErrorMsg}</h3>
-
-          {/* Submit Button */}
-          <div className="card-actions">
-            <button className="btn btn-outline btn-success my-4" onClick={handleSubmit}>
-              {isLogin ? "Login" : "Sign Up"}
-            </button>
-          </div>
-
-          {/* Toggle Login/Sign Up */}
-          <p className="my-4">
-            {isLogin ? "New User?" : "Already have an account?"}{" "}
-            <span className="text-blue-500 cursor-pointer" onClick={() => setIsLogin(!isLogin)}>
-              {isLogin ? "Sign Up" : "Login"}
-            </span>.
-          </p>
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium mb-1 px-1 text-gray-600"
+          >
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Enter email"
+            className="w-full px-3 py-2 border text-sm outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
-      </div>
+
+        <div>
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium mb-1 px-1 text-gray-600"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Enter password"
+            className="w-full px-3 py-2 border text-sm outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        {!isLogin && (
+          <>
+            <div>
+              <label
+                htmlFor="age"
+                className="block text-sm font-medium mb-1 px-1 text-gray-600"
+              >
+                Age
+              </label>
+              <input
+                id="age"
+                name="age"
+                type="number"
+                value={formData.age}
+                onChange={handleChange}
+                placeholder="Enter age"
+                className="w-full px-3 py-2 border text-sm outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="gender"
+                className="block text-sm font-medium mb-1 px-1 text-gray-600"
+              >
+                Gender
+              </label>
+              <select
+                id="gender"
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border text-sm outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="others">Other</option>
+              </select>
+            </div>
+          </>
+        )}
+
+        {ErrorMsg && <p className="text-red-500 text-sm">{ErrorMsg}</p>}
+
+        <button
+          type="submit"
+          className="w-full bg-gray-800 text-white py-2 mt-6 text-sm transition-all duration-200 hover:scale-105"
+        >
+          {isLogin ? "Login" : "Sign Up"}
+        </button>
+
+        <p className="text-sm text-center text-gray-600 mt-4">
+          {isLogin ? "New user?" : "Already have an account?"}{" "}
+          <span
+            className="text-blue-500 hover:underline cursor-pointer"
+            onClick={() => setIsLogin(!isLogin)}
+          >
+            {isLogin ? "Sign Up" : "Login"}
+          </span>
+        </p>
+      </form>
     </div>
   );
 };
 
 export default AuthPage;
-
-
-
-

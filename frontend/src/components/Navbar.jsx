@@ -1,104 +1,103 @@
 import React, { useState } from "react";
-import themeHandler from "../Utils/themeHandler";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import axios from "axios";
 import { baseUrl } from "../Utils/url";
 import { removeUser } from "../Utils/userSlice";
 
 const Navbar = () => {
-  const [CurrentTheme, setCurrentTheme] = useState("dark");
-  document
-    .getElementsByTagName("html")[0]
-    .setAttribute("data-theme", CurrentTheme);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((store) => store.user);
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const toggleMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post(
-        baseUrl + "/logout",
-        {},
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.post(baseUrl + "/logout", {}, { withCredentials: true });
       dispatch(removeUser());
       navigate("/");
     } catch (err) {
-      console.log("Error: " + err.message);
+      console.log("Error:", err.message);
     }
   };
 
-  const user = useSelector((store) => store.user);
-
   return (
-    <div className="navbar bg-base-100 border-b h-[4rem] px-4">
-      <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Coder's Media</a>
-      </div>
-      <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
-          {user && (
-            <li className="hidden sm:block">
-              <Link to={"/profile"}>Profile</Link>
-            </li>
-          )}
-          {user && (
-            <li className="hidden sm:block">
-              <Link to="/feed">Feed</Link>
-            </li>
-          )}
-          {user && (
-            <li className="hidden sm:block">
-              <Link to="/connections">Connectons</Link>
-            </li>
-          )}
-          <li>
-            <details className="z-10">
-              <summary className="font-bold">
-                {user ? (
-                  <div>{"Hello, " + user.firstName}</div>
-                ) : (
-                  <div>Hello, User</div>
-                )}
-              </summary>
-              <ul className="bg-base-100 rounded-t-none p-2">
-                {user && (
-                  <li className="sm:hidden">
-                    <Link to={"/profile"}>Profile</Link>
-                  </li>
-                )}
-                {user && (
-                  <li className="sm:hidden">
-                    <Link to="/feed">Feed</Link>
-                  </li>
-                )}
-                {user && (
-                  <li className="sm:hidden">
-                    <Link to="/connections">Connectons</Link>
-                  </li>
-                )}
+    <nav className="w-full min-h-16 bg-white px-6 py-4">
+      <div className="grid grid-cols-[1fr_1fr] max-w-[1350px] h-full mx-auto">
+        <Link to="/" className="inline-flex items-center font-bold text-xl">
+          Coder's Media
+        </Link>
 
-                {user && (
-                  <li>
-                    <button onClick={handleLogout}>Logout</button>
-                  </li>
-                )}
-                {/* <li>
-                  <button
-                    onClick={() => themeHandler(CurrentTheme, setCurrentTheme)}
-                  >
-                    {CurrentTheme == "cupcake" ? "Dark Mode" : "Light Mode"}
-                  </button>
-                </li> */}
-              </ul>
-            </details>
-          </li>
-        </ul>
+        {/* Desktop Menu */}
+        <div className="hidden md:flex justify-end items-center gap-6 text-gray-700 font-medium">
+          {user && (
+            <Link to="/profile" className="hover:underline">
+              Profile
+            </Link>
+          )}
+          {user && (
+            <Link to="/feed" className="hover:underline">
+              Feed
+            </Link>
+          )}
+          {user && (
+            <Link to="/connections" className="hover:underline">
+              Connections
+            </Link>
+          )}
+          {user && (
+            <button
+              onClick={handleLogout}
+              className="px-4 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 transition"
+            >
+              Logout
+            </button>
+          )}
+        </div>
+
+        {/* Mobile Hamburger */}
+        <div className="flex md:hidden justify-end items-center">
+          <button onClick={toggleMenu}>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
-    </div>
+
+      {/* Mobile Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden flex flex-col items-start gap-3 px-6 py-4 bg-white shadow-md text-gray-700 font-medium">
+          {user && (
+            <Link to="/profile" onClick={toggleMenu}>
+              Profile
+            </Link>
+          )}
+          {user && (
+            <Link to="/feed" onClick={toggleMenu}>
+              Feed
+            </Link>
+          )}
+          {user && (
+            <Link to="/connections" onClick={toggleMenu}>
+              Connections
+            </Link>
+          )}
+          {user && (
+            <button
+              onClick={() => {
+                toggleMenu();
+                handleLogout();
+              }}
+              className="text-red-600"
+            >
+              Logout
+            </button>
+          )}
+        </div>
+      )}
+    </nav>
   );
 };
 
