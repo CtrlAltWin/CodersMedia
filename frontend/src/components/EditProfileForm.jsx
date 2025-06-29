@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { baseUrl } from "../Utils/url";
-import { addUser } from "../Utils/userSlice";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import { addUser } from "../utils/userSlice";
 import { Save } from "lucide-react";
 
 const EditProfileForm = () => {
@@ -35,7 +35,7 @@ const EditProfileForm = () => {
     };
 
     try {
-      await axios.patch(baseUrl + "/profile/Edit", edit, {
+      await axios.patch(backendUrl + "/profile/Edit", edit, {
         withCredentials: true,
       });
 

@@ -2,16 +2,16 @@ import { useDispatch } from "react-redux";
 import Navbar from "./components/Navbar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { addUser } from "./Utils/userSlice";
+import { addUser } from "./utils/userSlice";
 import axios from "axios";
-import { baseUrl } from "./Utils/url";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fetchUser = async () => {
     try {
-      const res = await axios.get(baseUrl + "/profile/view", {
+      const res = await axios.get(backendUrl + "/profile/view", {
         withCredentials: true,
       });
       dispatch(addUser(res.data));

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import UserCard from "../components/UserCard";
 import axios from "axios";
-import { baseUrl } from "../Utils/url";
-import { addFeed, removeUserFromFeed } from "../Utils/feedSlice";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import { addFeed, removeUserFromFeed } from "../utils/feedSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "motion/react";
 import { Heart, X } from "lucide-react";
@@ -15,7 +15,7 @@ const Feed = () => {
   const feed = useSelector((store) => store.feed);
   const fetch = async () => {
     try {
-      const feed = await axios.get(baseUrl + "/feed", {
+      const feed = await axios.get(backendUrl + "/feed", {
         withCredentials: true,
       });
       dispatch(addFeed(feed?.data?.data));
@@ -46,7 +46,7 @@ const Feed = () => {
 
   const handleSwipe = async (status, id) => {
     await axios.post(
-      baseUrl + "/request/send/" + status + "/" + id,
+      backendUrl + "/request/send/" + status + "/" + id,
       {},
       {
         withCredentials: true,

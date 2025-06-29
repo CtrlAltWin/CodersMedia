@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import axios from "axios";
-import { baseUrl } from "../Utils/url";
-import { removeUser } from "../Utils/userSlice";
+import { removeUser } from "../utils/userSlice";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(baseUrl + "/logout", {}, { withCredentials: true });
+      await axios.post(backendUrl + "/logout", {}, { withCredentials: true });
       dispatch(removeUser());
       navigate("/");
     } catch (err) {

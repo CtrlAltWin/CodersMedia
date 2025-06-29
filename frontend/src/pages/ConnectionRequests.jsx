@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { baseUrl } from "../Utils/url";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import { useNavigate } from "react-router-dom";
 import LeftPannel from "../components/LeftPannel";
 import RightPanel from "../components/RightPannel";
@@ -12,7 +12,7 @@ const ConnectionRequests = () => {
   const fetchRequests = async () => {
     try {
       const { data } = await axios.get(
-        `${baseUrl}/user/request/recieved/pending`,
+        `${backendUrl}/user/request/recieved/pending`,
         { withCredentials: true }
       );
       setRequests(data.requests);
@@ -28,7 +28,7 @@ const ConnectionRequests = () => {
   const handleRequest = async (requestId, action) => {
     try {
       await axios.post(
-        `${baseUrl}/request/review/${action}/${requestId}`,
+        `${backendUrl}/request/review/${action}/${requestId}`,
         {},
         { withCredentials: true }
       );

@@ -6,7 +6,7 @@ const { validateSignUpData } = require("../utils/validation.js");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const app = express();
-const privateKey = "xyz123";
+const jwtSecret = process.env.JWT_SECRET;
 app.use("/", express.json());
 app.use("/", cookieParser());
 
@@ -37,7 +37,7 @@ authRouter.post("/login", async (req, res) => {
       {
         _id: user.id,
       },
-      privateKey,
+      jwtSecret,
       {
         expiresIn: "1d",
       }

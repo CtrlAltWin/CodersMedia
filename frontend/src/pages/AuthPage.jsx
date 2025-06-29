@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addUser } from "../Utils/userSlice";
+import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../Utils/url";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -28,14 +28,14 @@ const AuthPage = () => {
     try {
       if (isLogin) {
         const res = await axios.post(
-          baseUrl + "/login",
+          backendUrl + "/login",
           { emailId: formData.email, password: formData.password },
           { withCredentials: true }
         );
         dispatch(addUser(res.data));
         navigate("/Feed");
       } else {
-        await axios.post(baseUrl + "/signup", {
+        await axios.post(backendUrl + "/signup", {
           firstName: formData.firstName,
           lastName: formData.lastName,
           emailId: formData.email,
@@ -45,7 +45,7 @@ const AuthPage = () => {
         });
 
         const loginRes = await axios.post(
-          baseUrl + "/login",
+          backendUrl + "/login",
           { emailId: formData.email, password: formData.password },
           { withCredentials: true }
         );

@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const { connectDB } = require("./config/database.js");
 const cookieParser = require("cookie-parser");
 const app = express();
@@ -7,10 +8,11 @@ const profileRouter = require("./routes/profile.js");
 const requestRouter = require("./routes/request.js");
 const userRouter = require("./routes/user.js");
 const cors = require("cors");
-
+const port = process.env.PORT;
+const frontendUrl = process.env.FRONTEND_URL
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: frontendUrl,
     credentials: true,
   })
 );
@@ -20,10 +22,9 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
-
 connectDB()
   .then(() => {
-    app.listen(3000, () => {
+    app.listen(port, () => {
       console.log("server is successfully listening on the port 3000");
     });
   })

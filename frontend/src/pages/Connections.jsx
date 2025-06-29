@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { baseUrl } from "../Utils/url";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import { useNavigate } from "react-router-dom";
 import LeftPannel from "../components/LeftPannel";
 import RightPanel from "../components/RightPannel";
@@ -12,7 +12,7 @@ const Connections = () => {
 
   const fetchConnections = async () => {
     try {
-      const { data } = await axios.get(`${baseUrl}/user/connections`, {
+      const { data } = await axios.get(`${backendUrl}/user/connections`, {
         withCredentials: true,
       });
       setConnections(data.connections);

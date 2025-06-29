@@ -3,7 +3,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
-import appStore from "./Utils/appStore";
+import appStore from "./utils/appStore";
 import Feed from "./pages/Feed.jsx";
 import Profile from "./pages/Profile.jsx";
 import ConnectionRequests from "./pages/ConnectionRequests.jsx";
