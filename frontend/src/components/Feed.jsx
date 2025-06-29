@@ -66,7 +66,7 @@ const Feed = () => {
       {/* Center Swipe Card */}
       <div className="flex flex-col items-center py-2">
         <motion.div
-          className="w-full flex flex-col items-center"
+          className="w-full flex flex-col items-center h-[600px]"
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           whileDrag={{
@@ -100,19 +100,29 @@ const Feed = () => {
             />
           )}
         </motion.div>
-        <div className="absolute bottom-4 mt-4 flex justify-center gap-8 w-full text-gray-500">
-          <X
-            className="h-12 w-12 p-4 rounded-full bg-red-600 text-white"
-            onClick={() => {
-              handleSwipe("interested", _id);
-            }}
-          />
-          <Heart
-            className="h-12 w-12 p-4 rounded-full bg-green-600 text-white"
-            onClick={() => {
-              handleSwipe("ignored", _id);
-            }}
-          />
+        <div className="mt-4 flex justify-center gap-8 w-full text-gray-500">
+          <button
+            className="active:scale-110 duration-300 transition-transform ease-in-out"
+            title="ignore"
+          >
+            <X
+              className="h-12 w-12 p-4 rounded-full bg-red-600 text-white"
+              onClick={() => {
+                handleSwipe("ignored", _id);
+              }}
+            />
+          </button>
+          <button
+            className="active:scale-110 duration-300 transition-transform ease-in-out"
+            title="intrested"
+          >
+            <Heart
+              className="h-12 w-12 p-4 rounded-full bg-green-600 text-white"
+              onClick={() => {
+                handleSwipe("interested", _id);
+              }}
+            />
+          </button>
         </div>
       </div>
 
