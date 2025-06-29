@@ -42,7 +42,12 @@ authRouter.post("/login", async (req, res) => {
         expiresIn: "1d",
       }
     );
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
     res.send(user);
   } catch (err) {
     res.status(400).json(err.message);
