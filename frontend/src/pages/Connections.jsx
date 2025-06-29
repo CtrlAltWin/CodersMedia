@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../Utils/url";
 import { useNavigate } from "react-router-dom";
-import LeftPannel from "./LeftPannel";
-import RightPanel from "./RightPannel";
+import LeftPannel from "../components/LeftPannel";
+import RightPanel from "../components/RightPannel";
 import { MessageCircle } from "lucide-react";
 
 const Connections = () => {

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import UserCard from "./UserCard";
+import UserCard from "../components/UserCard";
 import axios from "axios";
 import { baseUrl } from "../Utils/url";
 import { addFeed, removeUserFromFeed } from "../Utils/feedSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "motion/react";
 import { Heart, X } from "lucide-react";
-import LeftPannel from "./LeftPannel";
-import RightPanel from "./RightPannel";
+import LeftPannel from "../components/LeftPannel";
+import RightPanel from "../components/RightPannel";
 
 const Feed = () => {
   const [swipeOffset, setSwipeOffset] = useState(0);

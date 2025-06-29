@@ -1,7 +1,7 @@
 import React from "react";
-import LeftPannel from "./LeftPannel";
-import RightPanel from "./RightPannel";
-import EditProfileForm from "./EditProfileForm";
+import LeftPannel from "../components/LeftPannel";
+import RightPanel from "../components/RightPannel";
+import EditProfileForm from "../components/EditProfileForm";
 
 const EditProfile = () => {
   return (

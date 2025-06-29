@@ -1,11 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import LeftPannel from "./LeftPannel";
-import RightPanel from "./RightPannel";
-import EditProfile from "./EditProfile";
-import UserCard from "./UserCard";
-import { Edit, Pen, Pencil } from "lucide-react";
+import LeftPannel from "../components/LeftPannel";
+import RightPanel from "../components/RightPannel";
+import UserCard from "../components/UserCard";
+import { Edit } from "lucide-react";
 
 const Profile = () => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import Navbar from "./components/Navbar";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { addUser } from "./Utils/userSlice";
 import axios from "axios";
 import { baseUrl } from "./Utils/url";
