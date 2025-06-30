@@ -3,9 +3,11 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const AuthPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [ErrorMsg, setErrorMsg] = useState("");
   const [formData, setFormData] = useState({
@@ -25,6 +27,8 @@ const AuthPage = () => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
+    setErrorMsg("");
     try {
       if (isLogin) {
         const res = await axios.post(
@@ -55,6 +59,8 @@ const AuthPage = () => {
       }
     } catch (err) {
       setErrorMsg(err.response?.data || "Something went wrong");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -67,7 +73,12 @@ const AuthPage = () => {
         }}
         className="flex flex-col w-full max-w-[440px] justify-center gap-6 px-6 py-8 border rounded-md shadow"
       >
-        <h2 className="text-2xl font-semibold text-center text-slate-700">
+        <div className="text-center border-b pb-2">
+          <h1 className="font-bold text-2xl">CodersMedia</h1>
+          <p className="text-gray-600 text-sm">Discover. Connect. Code Together.</p>
+        </div>
+
+        <h2 className="text-2xl font-semibold text-center text-gray-600">
           {isLogin ? "Login" : "Sign Up"}
         </h2>
 
@@ -198,6 +209,12 @@ const AuthPage = () => {
         >
           {isLogin ? "Login" : "Sign Up"}
         </button>
+
+        {isLoading && (
+          <div className="mx-auto">
+            <Spinner />
+          </div>
+        )}
 
         <p className="text-sm text-center text-gray-600 mt-4">
           {isLogin ? "New user?" : "Already have an account?"}{" "}

@@ -25,7 +25,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="px-1">
       <Navbar />
       <Outlet />
     </div>

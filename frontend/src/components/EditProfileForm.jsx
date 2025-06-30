@@ -4,9 +4,12 @@ import axios from "axios";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import { addUser } from "../utils/userSlice";
 import { Save } from "lucide-react";
+import { FlashOnRounded } from "@mui/icons-material";
+import Spinner from "./Spinner";
 
 const EditProfileForm = () => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const [ShowToast, setShowToast] = useState(false);
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
@@ -18,6 +21,7 @@ const EditProfileForm = () => {
   const { firstName, lastName, skills, photoURL, about } = user || {};
 
   const handleEditProfile = async () => {
+    setIsLoading(true);
     const skillsArray = Skills.split(",").map((skill) => skill.trim());
     const newFirstName = FirstName || firstName;
     const newLastName = LastName || lastName;
@@ -44,6 +48,8 @@ const EditProfileForm = () => {
       setTimeout(() => setShowToast(false), 2500);
     } catch (err) {
       setErrMsg(err.response?.data || "Something went wrong.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -149,6 +155,12 @@ const EditProfileForm = () => {
         <p> Save Changes</p>
         <Save className="group-hover:rotate-12 transition-all duration-200" />
       </button>
+
+      {/* {isLoading && (
+        <div className="mx-auto">
+          <Spinner />
+        </div>
+      )} */}
 
       {ShowToast && (
         <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50">
